@@ -21,24 +21,21 @@
 </head>
 <body>
     <title><b>Map of Shootings and Firearm Discharges in Toronto</b></title>
+    
     <div id="toronto-shootings-map" class="map-container"></div>
 
     <div id='legend' class='legend'>
-        <h4>Time of Shooting and/or Firearm Discharge</h4>
+        <h4>Death Count per Incident</h4>
         <!-- Contents of legend will now be added here -->
     </div>
 
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="legendcheck">
-        <label class="form-check-label" for="legendcheck">Show legend</label>
-    </div>
-
-    <!-- Dropdown for selecting the number of deaths -->
+    <!-- Dropdown for selecting the time range of incident -->
     <form>
         <fieldset id="timerangefieldset">
-            <label class="option-label">Select time range</label>
+            <label class="option-label">Select time range of Incident</label>
             <select id="timerange" name="timerange">
-                <option value="" disabled selected>Select Time Range...</option>
+                <!-- options based on the data obtained -->
+                <option value="" disabled selected>Select</option>
                 <option value="Morning">Morning</option>
                 <option value="Afternoon">Afternoon</option>
                 <option value="Evening">Evening</option>
@@ -47,7 +44,6 @@
             </select>
         </fieldset>
     </form>
-
 
     <script src="script.js"></script>
 </body>

@@ -3,7 +3,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia2VsbHlrZWxseTciLCJhIjoiY202aWNjdDE5MDcwbTJrc
 const map = new mapboxgl.Map({
     container: 'toronto-shootings-map', // Specify the container ID
     style:
-       'mapbox://styles/kellykelly7/cm7vfa21q006401s06g2ehayf', // Specify which map style to use
+       'mapbox://styles/kellykelly7/cm7y9wzv600vw01saejijeyfm', // Specify which map style to use
     center: [-79.361348, 43.711883], // Specify the starting position [lng, lat]
     zoom: 10 // Specify the starting zoom
 });
@@ -55,13 +55,13 @@ map.on('load', () => {
                 ["linear"], // linear scale expression
                 ["get", "DEATH"], // data expression get attribute value
                 0, // for value 0, colour is purple
-                "hsl(266, 86%, 45%)",
+                "#6610d5",
                 1, // for value 1, colour is blue
-                "hsl(209, 86%, 51%)",
+                "#1786ee",
                 2, // for value 2, colour is green
-                "hsl(92, 96%, 51%)",
+                "#7afa0a",
                 3, // for value 3, colour is red
-                "hsl(0, 98%, 55%)"
+                "#fd1c1c"
               ]
         },
         // tileset name (not id) from mapbox tileset
@@ -100,17 +100,17 @@ map.on('click', 'shootings_firearms_toronto', (e) => {
 });
 
 const legendlabels = [
-    'Morning',
-    'Afternoon',
-    'Evening',
-    'Night',
+    '0',
+    '1',
+    '2',
+    '3',
 ];
 
 const legendcolours = [
-    '#DA9100',
-    '#00A550',
-    '#EE82EE',
-    '#000000',
+    "#6610d5",
+    "#1786ee",
+    "#7afa0a",
+    "#fd1c1c",
 ];
 
 //Declare legend variable using legend div tag
@@ -135,7 +135,7 @@ legendlabels.forEach((label, i) => {
     legend.appendChild(item); //add row to the legend
 });
 
-
+// adding filter for the map
 let timevalue;
 
 document.getElementById("timerangefieldset").addEventListener('change',(e) => {   

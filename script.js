@@ -1,13 +1,15 @@
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2VsbHlrZWxseTciLCJhIjoiY202aWNjdDE5MDcwbTJrcHppYWw5ZjJzcCJ9.pry2p-gu8qXteiF0TWa4dw';
 
+// create a new map
 const map = new mapboxgl.Map({
-    container: 'toronto-shootings-map', // Specify the container ID
+    container: 'toronto-shootings-map', // container id from html
     style:
-       'mapbox://styles/kellykelly7/cm7y9wzv600vw01saejijeyfm', // Specify which map style to use
-    center: [-79.357212, 43.720271], // Specify the starting position [lng, lat]
-    zoom: 10 // Specify the starting zoom
+       'mapbox://styles/kellykelly7/cm7y9wzv600vw01saejijeyfm', // map style for basemap
+    center: [-79.347212, 43.720271], // starting position [longitude, latitude]
+    zoom: 10 // starting zoom extent
 });
 
+// adding new data to the newly created map
 map.on('load', () => {
     // adding data source from mapbox tileset
     map.addSource('neighbourhoods', {
@@ -90,15 +92,17 @@ map.on('mouseleave', 'shootings_firearms_toronto', () => {
 map.on('click', 'shootings_firearms_toronto', (e) => {
     new mapboxgl.Popup() //Declare new popup object on each click
         .setLngLat(e.lngLat) //Use method to set coordinates of popup based on mouse click location
+        //Use click event properties to write text for popup
         .setHTML("<b>Date of Occurrence: </b> " + e.features[0].properties.OCC_DATE + "<br>" +
             "<b>Time of Occurrence (range): </b>" + e.features[0].properties.OCC_TIME_RANGE + "<br>" +
             "<b>Neighbourhood (158-model): </b>" + e.features[0].properties.NEIGHBOURHOOD_158 + "<br>" +
             "<b>Coordinates: </b>" + e.features[0].geometry.coordinates + "<br>" +
             "<b>Deaths: </b>" + e.features[0].properties.DEATH + "<br>" +
-            "<b>Injuries: </b>" + e.features[0].properties.INJURIES + "<br>")//Use click event properties to write text for popup
+            "<b>Injuries: </b>" + e.features[0].properties.INJURIES + "<br>")
         .addTo(map); //Show popup on map
 });
 
+// declare legend labels 
 const legendlabels = [
     '0 deaths',
     '1 death',
@@ -106,6 +110,7 @@ const legendlabels = [
     '3 deaths',
 ];
 
+// declare legend colours 
 const legendcolours = [
     "#6610d5",
     "#1786ee",
@@ -120,16 +125,16 @@ const legend = document.getElementById('legend');
 legendlabels.forEach((label, i) => {
     const colour = legendcolours[i];
 
-    const item = document.createElement('div'); //each layer gets a 'row' - this isn't in the legend yet, we do this later
-    const key = document.createElement('span'); //add a 'key' to the row. A key will be the colour circle
+    const item = document.createElement('div'); //each layer gets a 'row'
+    const key = document.createElement('span'); //add a 'key' to the row 
 
-    key.className = 'legend-key'; //the key will take on the shape and style properties defined in css
-    key.style.backgroundColor = colour; // the background color is retreived from teh layers array
+    key.className = 'legend-key'; //the key takes on the shape and style properties defined in css
+    key.style.backgroundColor = colour; // the background color is retreived from the layers array
 
     const value = document.createElement('span'); //add a value variable to the 'row' in the legend
     value.innerHTML = `${label}`; //give the value variable text based on the label
 
-    item.appendChild(key); //add the key (colour cirlce) to the legend row
+    item.appendChild(key); //add the key (colour circle) to the legend row
     item.appendChild(value); //add the value to the legend row
 
     legend.appendChild(item); //add row to the legend
@@ -140,16 +145,17 @@ let timevalue;
 
 document.getElementById("timerangefieldset").addEventListener('change',(e) => {   
     timevalue = document.getElementById('timerange').value;
-
+// if the dropdown value is 'All', show all points from the layer
     if (timevalue == 'All') {
         map.setFilter(
             'shootings_firearms_toronto',
-            ['has', 'OCC_TIME_RANGE'] // Returns all polygons from layer that have a value in PRENAME field
+            ['has', 'OCC_TIME_RANGE'] // Returns all polygons from layer that have a value in OCC_TIME_RANGE
         );
+// if the dropdown value is not 'All', show points that match the dropdown selection
     } else {
         map.setFilter(
             'shootings_firearms_toronto',
-            ['==', ['get', 'OCC_TIME_RANGE'], timevalue] // returns polygon with PRENAME value that matches dropdown selection
+            ['==', ['get', 'OCC_TIME_RANGE'], timevalue] // returns points with OCC_TIME_RANGE value that matches dropdown selection
         );
     }
 });

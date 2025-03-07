@@ -73,7 +73,7 @@ map.on('load', () => {
 });
 
 // adding zoom buttons and rotation control for map
-map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
 // adding fullscreen option for map
 map.addControl(new mapboxgl.FullscreenControl());
@@ -100,6 +100,25 @@ map.on('click', 'shootings_firearms_toronto', (e) => {
             "<b>Deaths: </b>" + e.features[0].properties.DEATH + "<br>" +
             "<b>Injuries: </b>" + e.features[0].properties.INJURIES + "<br>")
         .addTo(map); //Show popup on map
+});
+
+//Add search control to map overlay
+map.addControl(
+    new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+        // search will only find locations in Canada
+        countries: "ca" 
+    })
+);
+
+// add function to the return button with flyto, bringing us back to our original zoom and center point
+document.getElementById('returnbutton').addEventListener('click', () => {
+    map.flyTo({
+        center: [-79.347212, 43.720271],
+        zoom: 10,
+        essential: true
+    });
 });
 
 // declare legend labels 

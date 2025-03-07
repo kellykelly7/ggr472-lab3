@@ -109,7 +109,8 @@ map.addControl(
         mapboxgl: mapboxgl,
         // search will only find locations in Canada
         countries: "ca" 
-    })
+    // modifies position of geocoder on map
+    }), "top-left"
 );
 
 // add function to the return button with flyto, bringing us back to our original zoom and center point

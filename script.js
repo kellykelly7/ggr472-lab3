@@ -71,7 +71,10 @@ map.on('load', () => {
 });
 
 // adding zoom buttons and rotation control for map
-map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+
+// adding fullscreen option for map
+map.addControl(new mapboxgl.FullscreenControl());
 
 //Switch cursor to pointer when mouse is over shootings_firearms_toronto layer
 map.on('mouseenter', 'shootings_firearms_toronto', () => {
@@ -96,3 +99,57 @@ map.on('click', 'shootings_firearms_toronto', (e) => {
         .addTo(map); //Show popup on map
 });
 
+const legendlabels = [
+    'Morning',
+    'Afternoon',
+    'Evening',
+    'Night',
+];
+
+const legendcolours = [
+    '#DA9100',
+    '#00A550',
+    '#EE82EE',
+    '#000000',
+];
+
+//Declare legend variable using legend div tag
+const legend = document.getElementById('legend');
+
+//For each layer create a block to put the colour and label in
+legendlabels.forEach((label, i) => {
+    const colour = legendcolours[i];
+
+    const item = document.createElement('div'); //each layer gets a 'row' - this isn't in the legend yet, we do this later
+    const key = document.createElement('span'); //add a 'key' to the row. A key will be the colour circle
+
+    key.className = 'legend-key'; //the key will take on the shape and style properties defined in css
+    key.style.backgroundColor = colour; // the background color is retreived from teh layers array
+
+    const value = document.createElement('span'); //add a value variable to the 'row' in the legend
+    value.innerHTML = `${label}`; //give the value variable text based on the label
+
+    item.appendChild(key); //add the key (colour cirlce) to the legend row
+    item.appendChild(value); //add the value to the legend row
+
+    legend.appendChild(item); //add row to the legend
+});
+
+
+let timevalue;
+
+document.getElementById("timerangefieldset").addEventListener('change',(e) => {   
+    timevalue = document.getElementById('timerange').value;
+
+    if (timevalue == 'All') {
+        map.setFilter(
+            'shootings_firearms_toronto',
+            ['has', 'OCC_TIME_RANGE'] // Returns all polygons from layer that have a value in PRENAME field
+        );
+    } else {
+        map.setFilter(
+            'shootings_firearms_toronto',
+            ['==', ['get', 'OCC_TIME_RANGE'], timevalue] // returns polygon with PRENAME value that matches dropdown selection
+        );
+    }
+});

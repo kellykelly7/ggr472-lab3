@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
     container: 'toronto-shootings-map', // Specify the container ID
     style:
        'mapbox://styles/kellykelly7/cm7y9wzv600vw01saejijeyfm', // Specify which map style to use
-    center: [-79.361348, 43.711883], // Specify the starting position [lng, lat]
+    center: [-79.357212, 43.720271], // Specify the starting position [lng, lat]
     zoom: 10 // Specify the starting zoom
 });
 
@@ -100,10 +100,10 @@ map.on('click', 'shootings_firearms_toronto', (e) => {
 });
 
 const legendlabels = [
-    '0',
-    '1',
-    '2',
-    '3',
+    '0 deaths',
+    '1 death',
+    '2 deaths',
+    '3 deaths',
 ];
 
 const legendcolours = [

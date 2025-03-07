@@ -5,6 +5,15 @@
     width : 100%
 }
 
+h1 {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}
+
 .legend {
     background-color: whitesmoke;
     border-radius: 3px;
